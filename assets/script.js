@@ -1,3 +1,7 @@
+//initialize references to elements in the HTML needed for the script
+var timerEl = document.querySelector("#timer");
+var quizEl = document.querySelector("#quizContainer");
+
 // start game with button
 // to do this we will need an addeventlistener with
 // a quiz function
