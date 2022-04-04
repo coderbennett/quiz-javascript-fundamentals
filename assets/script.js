@@ -3,6 +3,7 @@ var timerEl = document.querySelector("#timer");
 var quizEl = document.querySelector("#quizContainer");
 var quizBtn = document.querySelector("#quizStart");
 var questionEl = document.querySelector("#question");
+var answersEl = document.querySelector("#answers");
 
 // initialize global variables
 var score;
@@ -46,6 +47,8 @@ function startQuiz() {
 
     questionEl.setAttribute("style", "display:inline;");
 
+    answersEl.setAttribute("style", "display:flex;");
+
     //start the timer for the quiz
     startTimer();
 
@@ -78,7 +81,10 @@ function startTimer() {
 
 function displayQuestion() {
     questionEl.textContent = questions[questionNo].q;
-    
+    answersEl.children[0].textContent = questions[questionNo].a1;
+    answersEl.children[1].textContent = questions[questionNo].a2;
+    answersEl.children[2].textContent = questions[questionNo].a3;
+    answersEl.children[3].textContent = questions[questionNo].a4;
 };
 
 // start game with button

@@ -41,7 +41,7 @@ header {
 }
 
 button {
-    background-color: var(--standoutRed);
+    background-color: var(--accentColor1);
     color: var(--text1Color);
 
     padding: 8px;
@@ -53,6 +53,10 @@ button {
 
     font-weight: bolder;
     font-size: xx-large;
+}
+
+button:hover {
+    background-color: var(--standoutRed);
 }
 
 footer {
@@ -75,6 +79,37 @@ h1, h3 {
 
 h2 {
     display: none;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+ul {
+    display: none;
+
+    justify-content: left;
+    flex-direction: column;
+
+    list-style-type: none;
+}
+
+li {
+    font-size: large;
+    font-weight: bold;
+
+    padding: 12px;
+
+    margin: 6px;
+
+    background-color: var(--accentColor1);
+
+    border-radius: 8px;
+    border: var(--borderStyling);
+}
+
+li:hover {
+    background-color: var(--standoutRed);
 }
 
 #timer {
