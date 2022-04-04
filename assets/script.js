@@ -1,11 +1,12 @@
 // initialize references to elements in the HTML needed for the script
 var timerEl = document.querySelector("#timer");
 var quizEl = document.querySelector("#quizContainer");
+var quizBtn = document.querySelector("#quizStart");
 
 // initialize global variables
 var score;
-var secondsLeft = 75;
-var timeInterval;
+var secondsLeft;
+var timerInterval;
 
 // initialize questions object
 // each question object has 4 possible answers,
@@ -30,6 +31,39 @@ var questions = {
         correct : 2
     }
 };
+
+quizBtn.addEventListener("click", startQuiz);
+
+function startQuiz() {
+    //set score to 0 for the start,
+    score = 0;
+
+    //start the timer for the quiz
+    startTimer();
+}
+
+function startTimer() {
+
+    secondsLeft = 75;
+
+    //set up the timer interval to count down every 1000 milliseconds (1 second)
+    timerInterval = setInterval(function() {
+
+        //this is our timer variable, it will subtract one from itself at each interval
+        secondsLeft--;
+
+        //every second we should update the text content of the timer element
+        timerEl.textContent = secondsLeft;
+
+        //if the time is up
+        if(secondsLeft === 0) {
+            //invoke the gameOver function
+            gameOver();
+        }
+
+    }, 1000);
+
+}
 
 // start game with button
 // to do this we will need an addeventlistener with
