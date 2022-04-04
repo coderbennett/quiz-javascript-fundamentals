@@ -2,11 +2,13 @@
 var timerEl = document.querySelector("#timer");
 var quizEl = document.querySelector("#quizContainer");
 var quizBtn = document.querySelector("#quizStart");
+var questionEl = document.querySelector("#question");
 
 // initialize global variables
 var score;
 var secondsLeft;
 var timerInterval;
+var questionNo = 0;
 
 // initialize questions object
 // each question object has 4 possible answers,
@@ -14,32 +16,40 @@ var timerInterval;
 // correct answer is at
 
 var questions = {
-    question1 : {
-        q : "What array method will return the number of elements it contains?",
-        a1 : ".size",
-        a2 : ".maxIndex",
-        a3 : ".length",
-        a4 : ".contains",
-        correct : 3
+    0: {
+        q: "What array method will return the number of elements it contains?",
+        a1: ".size",
+        a2: ".maxIndex",
+        a3: ".length",
+        a4: ".contains",
+        correct: 3
     },
-    question2 : {
-        q : "What string method returns two strings together?",
-        a1 : ".join",
-        a2 : ".concat",
-        a3 : ".add",
-        a4 : ".combine",
-        correct : 2
+    1: {
+        q: "What string method returns two strings together?",
+        a1: ".join",
+        a2: ".concat",
+        a3: ".add",
+        a4: ".combine",
+        correct: 2
     }
 };
 
 quizBtn.addEventListener("click", startQuiz);
 
 function startQuiz() {
+
     //set score to 0 for the start,
     score = 0;
 
+    //hide the quiz button to make room for the questions
+    quizBtn.setAttribute("style", "display:none;");
+
+    questionEl.setAttribute("style", "display:inline;");
+
     //start the timer for the quiz
     startTimer();
+
+    displayQuestion();
 }
 
 function startTimer() {
@@ -57,13 +67,19 @@ function startTimer() {
 
         //if the time is up
         if(secondsLeft === 0) {
+            clearInterval(timerInterval);
             //invoke the gameOver function
             gameOver();
         }
 
     }, 1000);
 
-}
+};
+
+function displayQuestion() {
+    questionEl.textContent = questions[questionNo].q;
+    
+};
 
 // start game with button
 // to do this we will need an addeventlistener with

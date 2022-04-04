@@ -14,7 +14,7 @@ html {
 
 body {
     color: var(--textColor1);
-    
+
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -32,7 +32,9 @@ header {
 }
 
 #quizContainer {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     margin: auto;
     
@@ -69,4 +71,17 @@ footer {
 
 h1, h3 {
     text-align: center;
+}
+
+h2 {
+    display: none;
+}
+
+#timer {
+    text-align: right;
+    font-size: x-large;
+    font-weight: bold;
+
+    margin-right: 16px;
+    padding: 16px;
 }
