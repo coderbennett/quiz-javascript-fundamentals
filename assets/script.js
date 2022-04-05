@@ -1,12 +1,13 @@
 // initialize references to elements in the HTML needed for the script
 var timerEl = document.querySelector("#timer");
+var scoreEl = document.querySelector("#score");
 var quizEl = document.querySelector("#quizContainer");
 var quizBtn = document.querySelector("#quizStart");
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
 
 // initialize global variables
-var score;
+var score = 0;
 var secondsLeft;
 var timerInterval;
 var questionNo = 0;
@@ -23,7 +24,7 @@ var questions = {
         a2: ".maxIndex",
         a3: ".length",
         a4: ".contains",
-        correct: 3
+        correct: ".length"
     },
     1: {
         q: "What string method returns two strings together?",
@@ -31,11 +32,23 @@ var questions = {
         a2: ".concat",
         a3: ".add",
         a4: ".combine",
-        correct: 2
+        correct: ".concat"
+    },
+    3: {
+        q: "What string method returns two strings together?",
+        a1: ".join",
+        a2: ".concat",
+        a3: ".add",
+        a4: ".combine",
+        correct: ".concat"
     }
 };
 
 quizBtn.addEventListener("click", startQuiz);
+answersEl.children[0].addEventListener("click", answerQuestion);
+answersEl.children[1].addEventListener("click", answerQuestion);
+answersEl.children[2].addEventListener("click", answerQuestion);
+answersEl.children[3].addEventListener("click", answerQuestion);
 
 function startQuiz() {
 
@@ -66,7 +79,7 @@ function startTimer() {
         secondsLeft--;
 
         //every second we should update the text content of the timer element
-        timerEl.textContent = secondsLeft;
+        timerEl.textContent = "Timer: " + secondsLeft;
 
         //if the time is up
         if(secondsLeft === 0) {
@@ -86,6 +99,23 @@ function displayQuestion() {
     answersEl.children[2].textContent = questions[questionNo].a3;
     answersEl.children[3].textContent = questions[questionNo].a4;
 };
+
+function answerQuestion(event) {
+   if (event.target.textContent === questions[questionNo].correct) {
+       score += 50;
+       scoreEl.textContent = "Score: " + score;
+   } else {
+       secondsLeft -= 10;
+   }
+   
+   if (questionNo !== 10) {
+    questionNo++;
+    displayQuestion();
+   } else {
+       gameOver();
+   }
+};
+
 
 // start game with button
 // to do this we will need an addeventlistener with

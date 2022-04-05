@@ -46,7 +46,7 @@ button {
 
     padding: 8px;
 
-    margin: auto;
+    margin: -96px auto auto auto;
 
     border: var(--borderStyling);
     border-radius: 12px;
@@ -112,10 +112,28 @@ li:hover {
     background-color: var(--standoutRed);
 }
 
+#quizStats {
+    display: flex;
+    justify-content: space-between;
+}
+
 #timer {
     text-align: right;
     font-size: x-large;
     font-weight: bold;
+
+    display: inline;
+
+    margin-right: 16px;
+    padding: 16px;
+}
+
+#score {
+    text-align: left;
+    font-size: x-large;
+    font-weight: bold;
+
+    display: inline;
 
     margin-right: 16px;
     padding: 16px;
