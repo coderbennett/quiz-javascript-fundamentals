@@ -107,6 +107,13 @@ ul {
     list-style-type: none;
 }
 
+ol {
+    display: none;
+
+    justify-content: center;
+    flex-direction: column;
+}
+
 .answer {
     font-size: large;
     font-weight: bold;

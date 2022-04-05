@@ -122,8 +122,8 @@ if(answersEl) {
 }
 
 //needs work isnt working
-if(inputEl) {
-    inputEl.addEventListener("input", addHighScore);
+if(formEl) {
+    formEl.addEventListener("submit", addHighScore);
 }
 
 function startQuiz() {
@@ -226,7 +226,7 @@ function addHighScore(event) {
 
     } else {
         highScores = [];
-        highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+        highScores = JSON.parse(localStorage.getItem("highScores"));
         highScores.push(highScoreObj);
         localStorage.setItem("highScores", JSON.stringify(highScores));
     }
@@ -237,17 +237,23 @@ function addHighScore(event) {
 function displayHighScores() {
     var liArray = [];
 
-    highscoresEl.setAttribute("style", "display:block;");
+    highscoresEl.setAttribute("style", "display:flex;");
 
     highScores = JSON.parse(localStorage.getItem("highScores"));
+
+    highScores = highScores.sort(compareHighScores);
 
     for (var i = 0; i < highScores.length; i++) {
         liArray[i] = document.createElement("li");
         highscoresEl.appendChild(liArray[i]);
-        liArray[i].textContent = "1. " + highScores[i].initials + ": " + highScores[i].highscore;
+        liArray[i].textContent = highScores[i].initials + ": " + highScores[i].highscore;
     }
 
     quizBtn.setAttribute("style", "display:box;");
+}
+
+function compareHighScores(user1, user2) {
+    return user2.highscore - user1.highscore;
 }
 
 // start game with button
