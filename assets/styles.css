@@ -107,7 +107,7 @@ ul {
     list-style-type: none;
 }
 
-li {
+.answer {
     font-size: large;
     font-weight: bold;
 
@@ -121,10 +121,13 @@ li {
     border: var(--borderStyling);
 }
 
-li:hover {
+.answer:hover {
     background-color: var(--standoutRed);
 }
 
+form {
+    display: none;
+}
 
 input {
     border: var(--borderStyling);

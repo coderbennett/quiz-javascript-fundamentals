@@ -5,13 +5,16 @@ var quizEl = document.querySelector("#quizContainer");
 var quizBtn = document.querySelector("#quizStart");
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
-var formEl = document.querySelector("highscores");
+var highscoresEl = document.querySelector("highscores");
+var formEl = document.querySelector("#highscoreForm");
+var inputEl = document.querySelector("#initials");
 
 // initialize global variables
 var score = 0;
 var secondsLeft;
 var timerInterval;
 var questionNo = 0;
+var highScores = [];
 
 // initialize questions object
 // each question object has 4 possible answers,
@@ -114,6 +117,11 @@ if(answersEl) {
     answersEl.children[3].addEventListener("click", answerQuestion);
 }
 
+//needs work isnt working
+if(inputEl) {
+    inputEl.addEventListener("submit", addHighScore);
+}
+
 function startQuiz() {
 
     //set score to 0 for the start,
@@ -171,7 +179,7 @@ function answerQuestion(event) {
        secondsLeft -= 10;
    }
    
-   if (questionNo !== 10) {
+   if (questionNo < 9) {
     questionNo++;
     displayQuestion();
    } else {
@@ -192,12 +200,44 @@ function gameOver() {
 
     answersEl.setAttribute("style", "display:none;");
 
-    highscores();
-}
-
-function highscores() {
     formEl.setAttribute("style", "display:block;");
     
+}
+
+
+//needs work? isnt working
+function addHighScore(event) {
+    console.log("addhighscore function was triggered");
+    event.preventDefault();
+    var userInitials = inputEl.value;
+    formEl.setAttribute("style", "display:none;");
+
+    var highScoreObj = {
+        initials: userInitials,
+        highscore: score
+    };
+
+    if (localStorage.getItem("highScores") === null) {
+        localStorage.setItem("highScores", [highScoreObj]);
+    } else {
+        highScores = localStorage.getItem("highScores");
+        highScores.push(highScoreObj);
+        localStorage.setItem("highScores", highScores);
+    }
+
+    displayHighScores();
+}
+
+function displayHighScores() {
+    var liArray = [];
+
+    for (var i = 0; i < highScores.length; i++) {
+        liArray[i] = document.createElement("li");
+        highscoresEl.appendChild(liArray[i]);
+        liArray[i].textContent = "1. " + highScores[i].initials + ": " + highScores[i].highscore;
+    }
+
+    quizBtn.setAttribute("style", "display:box;");
 }
 
 // start game with button
