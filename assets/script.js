@@ -5,7 +5,7 @@ var quizEl = document.querySelector("#quizContainer");
 var quizBtn = document.querySelector("#quizStart");
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
-var highscoresEl = document.querySelector("highscores");
+var highscoresEl = document.querySelector("#highscores");
 var formEl = document.querySelector("#highscoreForm");
 var inputEl = document.querySelector("#initials");
 
@@ -15,6 +15,10 @@ var secondsLeft;
 var timerInterval;
 var questionNo = 0;
 var highScores = [];
+
+if (localStorage.getItem("highScores") === null) {
+    localStorage.setItem("highScores", JSON.stringify([]));
+}
 
 // initialize questions object
 // each question object has 4 possible answers,
@@ -119,7 +123,7 @@ if(answersEl) {
 
 //needs work isnt working
 if(inputEl) {
-    inputEl.addEventListener("submit", addHighScore);
+    inputEl.addEventListener("input", addHighScore);
 }
 
 function startQuiz() {
@@ -204,7 +208,6 @@ function gameOver() {
     
 }
 
-
 //needs work? isnt working
 function addHighScore(event) {
     console.log("addhighscore function was triggered");
@@ -217,12 +220,15 @@ function addHighScore(event) {
         highscore: score
     };
 
-    if (localStorage.getItem("highScores") === null) {
-        localStorage.setItem("highScores", [highScoreObj]);
+    if (JSON.parse(localStorage.getItem("highScores")) === []) {
+        highScores.push(JSON.parse(localStorage.getItem("highScores")));
+        localStorage.setItem("highScores", JSON.stringify(highScores));
+
     } else {
-        highScores = localStorage.getItem("highScores");
+        highScores = [];
+        highScores = JSON.parse(localStorage.getItem("highScores")) || [];
         highScores.push(highScoreObj);
-        localStorage.setItem("highScores", highScores);
+        localStorage.setItem("highScores", JSON.stringify(highScores));
     }
 
     displayHighScores();
@@ -230,6 +236,10 @@ function addHighScore(event) {
 
 function displayHighScores() {
     var liArray = [];
+
+    highscoresEl.setAttribute("style", "display:block;");
+
+    highScores = JSON.parse(localStorage.getItem("highScores"));
 
     for (var i = 0; i < highScores.length; i++) {
         liArray[i] = document.createElement("li");
