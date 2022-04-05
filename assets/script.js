@@ -5,6 +5,7 @@ var quizEl = document.querySelector("#quizContainer");
 var quizBtn = document.querySelector("#quizStart");
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
+var formEl = document.querySelector("highscores");
 
 // initialize global variables
 var score = 0;
@@ -100,11 +101,18 @@ var questions = {
     }
 };
 
-quizBtn.addEventListener("click", startQuiz);
-answersEl.children[0].addEventListener("click", answerQuestion);
-answersEl.children[1].addEventListener("click", answerQuestion);
-answersEl.children[2].addEventListener("click", answerQuestion);
-answersEl.children[3].addEventListener("click", answerQuestion);
+// hide the event listener if the quiz button is not active
+if(quizBtn){
+    quizBtn.addEventListener("click", startQuiz);
+}
+
+// hide the answers event listeners if the answers list is not active
+if(answersEl) {
+    answersEl.children[0].addEventListener("click", answerQuestion);
+    answersEl.children[1].addEventListener("click", answerQuestion);
+    answersEl.children[2].addEventListener("click", answerQuestion);
+    answersEl.children[3].addEventListener("click", answerQuestion);
+}
 
 function startQuiz() {
 
@@ -139,7 +147,6 @@ function startTimer() {
 
         //if the time is up
         if(secondsLeft === 0) {
-            clearInterval(timerInterval);
             //invoke the gameOver function
             gameOver();
         }
@@ -168,10 +175,30 @@ function answerQuestion(event) {
     questionNo++;
     displayQuestion();
    } else {
+       score += secondsLeft;
        gameOver();
    }
 };
 
+function gameOver() {
+    clearInterval(timerInterval);
+    questionEl.textContent = "";
+    answersEl.children[0].textContent = "";
+    answersEl.children[1].textContent = "";
+    answersEl.children[2].textContent = "";
+    answersEl.children[3].textContent = "";
+
+    questionEl.setAttribute("style", "display:none;");
+
+    answersEl.setAttribute("style", "display:none;");
+
+    highscores();
+}
+
+function highscores() {
+    formEl.setAttribute("style", "display:block;");
+    
+}
 
 // start game with button
 // to do this we will need an addeventlistener with
