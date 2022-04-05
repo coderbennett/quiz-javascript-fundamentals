@@ -34,13 +34,69 @@ var questions = {
         a4: ".combine",
         correct: ".concat"
     },
+    2: {
+        q: "Which array method acts similar to a for loop?",
+        a1: ".filter",
+        a2: ".forLoop",
+        a3: ".forEach",
+        a4: ".loopFor",
+        correct: ".forEach"
+    },
     3: {
-        q: "What string method returns two strings together?",
-        a1: ".join",
-        a2: ".concat",
-        a3: ".add",
-        a4: ".combine",
-        correct: ".concat"
+        q: "Which of the following is not an iterator?",
+        a1: ".iterate",
+        a2: "while loop",
+        a3: ".forEach",
+        a4: "for loop",
+        correct: ".iterate"
+    },
+    4: {
+        q: "Which is the proper syntax of a for loop?",
+        a1: "for (let i > 0; i++)",
+        a2: "for (var i = 16, i > -1, i--)",
+        a3: "for (let i; i++; i = 9)",
+        a4: "for (var i = 0; i < 6; i++)",
+        correct: "for (var i = 0; i < 6; i++)"
+    },
+    5: {
+        q: "In a switch case, what does the default clause do?",
+        a1: "The default clause always executes.",
+        a2: "The default clause only executes if no other case passes.",
+        a3: "The default clause never executes.",
+        a4: "The default clause executes before other cases are checked.",
+        correct: "The default clause only executes if no other case passes."
+    },
+    6: {
+        q: "What does the modulo (%) operator do?",
+        a1: "Rounds decimals up to the nearest whole number.",
+        a2: "Turns a fraction into a percent.",
+        a3: "Returns the remainder of two values.",
+        a4: "Divides two values.",
+        correct: "Returns the remainder of two values."
+    },
+    7: {
+        q: "Objects contain pairs of what?",
+        a1: "keys and values",
+        a2: "properties and keys",
+        a3: "values and properties",
+        a4: "keys and data",
+        correct: "keys and values"
+    },
+    8: {
+        q: "'typeof NaN' will return what value?",
+        a1: "null",
+        a2: "undefined",
+        a3: "number",
+        a4: "string",
+        correct: "number"
+    },
+    9: {
+        q: "Which of the following is a strict equality operator?",
+        a1: "==!",
+        a2: "====",
+        a3: "==",
+        a4: "===",
+        correct: "==="
     }
 };
 
