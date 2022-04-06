@@ -7,12 +7,12 @@ Welcome to the **JavaScript Fundamentals Web Quiz**!!
 ## **Take the Quiz!**
 
 ---
-Are you a JavaScript expert? Let's find out! [This JavaScript quiz]() tests your knowledge on JavaScript with 10 multiple choice questions. 
+Are you a JavaScript expert? Let's find out! [This JavaScript quiz](https://coderbennett.github.io/quiz-javascript-fundamentals/) tests your knowledge on JavaScript with 10 multiple choice questions. 
 
 ## **How Does it Work?**
 
 ---
-You can visit the site [here]().
+You can visit the site [here](https://coderbennett.github.io/quiz-javascript-fundamentals/).
 
 When you visit the site you will be prompted to start the quiz with a large yellow button in the center of the page. You have 75 seconds to complete the quiz.
 
