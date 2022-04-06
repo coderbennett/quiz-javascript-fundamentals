@@ -3,6 +3,7 @@ var timerEl = document.querySelector("#timer");
 var scoreEl = document.querySelector("#score");
 var quizEl = document.querySelector("#quizContainer");
 var quizBtn = document.querySelector("#quizStart");
+var retryBtn = document.querySelector("#retry");
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
 var highscoresEl = document.querySelector("#highscores");
@@ -16,15 +17,15 @@ var timerInterval;
 var questionNo = 0;
 var highScores = [];
 
+//check to see if there is anything in the local storage
+//if not, we should set up the highscores array within local storage
 if (localStorage.getItem("highScores") === null) {
     localStorage.setItem("highScores", JSON.stringify([]));
 }
 
 // initialize questions object
 // each question object has 4 possible answers,
-// a question, and a correct key with the index which the
-// correct answer is at
-
+// a question, and a correct key with the correct answer string
 var questions = {
     0: {
         q: "What array method will return the number of elements it contains?",
@@ -121,31 +122,41 @@ if(answersEl) {
     answersEl.children[3].addEventListener("click", answerQuestion);
 }
 
-//needs work isnt working
+//if the form is active, listen for the submit event and invoke addHighScore
 if(formEl) {
     formEl.addEventListener("submit", addHighScore);
 }
 
+//if the retry button is active, listen for the click event to reset the game
+if(retryBtn) {
+    retryBtn.addEventListener("click", resetGame);
+}
+
+//this function starts the quiz functions/elements
 function startQuiz() {
 
     //set score to 0 for the start,
     score = 0;
+    scoreEl.textContent = "Score: " + score;
 
     //hide the quiz button to make room for the questions
     quizBtn.setAttribute("style", "display:none;");
 
+    //set the display to inline for the question so we can see it
     questionEl.setAttribute("style", "display:inline;");
 
+    //set the display to flex so we can see the answers list
     answersEl.setAttribute("style", "display:flex;");
 
     //start the timer for the quiz
     startTimer();
 
+    //invoke the displayQuestion function so we can see the first question
     displayQuestion();
 }
 
 function startTimer() {
-
+    //set the seconds to 75, this is the total time a user will get at the start
     secondsLeft = 75;
 
     //set up the timer interval to count down every 1000 milliseconds (1 second)
@@ -158,7 +169,7 @@ function startTimer() {
         timerEl.textContent = "Timer: " + secondsLeft;
 
         //if the time is up
-        if(secondsLeft === 0) {
+        if(secondsLeft <= 0) {
             //invoke the gameOver function
             gameOver();
         }
@@ -167,6 +178,8 @@ function startTimer() {
 
 };
 
+//this function sets the text content of the list elements in the answers list
+//it also sets the question (based on what question number we are on)
 function displayQuestion() {
     questionEl.textContent = questions[questionNo].q;
     answersEl.children[0].textContent = questions[questionNo].a1;
@@ -175,113 +188,146 @@ function displayQuestion() {
     answersEl.children[3].textContent = questions[questionNo].a4;
 };
 
+//this function is invoked when the user clicks on an answer
 function answerQuestion(event) {
+
+    //if the text of the answer is equal to the question's correct
+    //answer then good job lets give the user 50 points and update
+    //the score text content
    if (event.target.textContent === questions[questionNo].correct) {
        score += 50;
        scoreEl.textContent = "Score: " + score;
+       //else they were wrong and we should deduct 10 seconds from
+       //the timer
    } else {
        secondsLeft -= 10;
    }
    
+   //if they are on any question other than 9
+   //update the question number to the next question
+   //and display that question
    if (questionNo < 9) {
     questionNo++;
     displayQuestion();
+    //else they have completed all the questions and the
+    //quiz is over!!
+    //bonus for completion- we add the seconds left to
+    //the user's score
    } else {
        score += secondsLeft;
+       scoreEl.textContent = "Score: " + score;
        gameOver();
    }
 };
 
+//this function is invoked when the player runs out of time or if
+//the player runs out of questions
 function gameOver() {
+    //set the seconds left to zero just incase it dips below 0
+    secondsLeft = 0;
+
+    //stop the timer
     clearInterval(timerInterval);
-    questionEl.textContent = "";
+
+    //remove the answers from the li elements
     answersEl.children[0].textContent = "";
     answersEl.children[1].textContent = "";
     answersEl.children[2].textContent = "";
     answersEl.children[3].textContent = "";
 
-    questionEl.setAttribute("style", "display:none;");
-
+    //remove the display for the question & answers elements
+    // questionEl.setAttribute("style", "display:none;");
     answersEl.setAttribute("style", "display:none;");
 
+    //turn the question element into a temporary highscores header
+    questionEl.textContent = "Highscores:";
+
+    //set the form display so we can view it on the screen
     formEl.setAttribute("style", "display:block;");
     
 }
 
-//needs work? isnt working
+//this function runs when the initials form is submitted
 function addHighScore(event) {
-    console.log("addhighscore function was triggered");
     event.preventDefault();
+
+    //store the user input as the userInitials variable
     var userInitials = inputEl.value;
+    //stop displaying the form now that they have used it
     formEl.setAttribute("style", "display:none;");
 
+    //initialize the highScore object to be used shortly
     var highScoreObj = {
         initials: userInitials,
         highscore: score
     };
 
-    if (JSON.parse(localStorage.getItem("highScores")) === []) {
-        highScores.push(JSON.parse(localStorage.getItem("highScores")));
-        localStorage.setItem("highScores", JSON.stringify(highScores));
+    //set the highScores to the parsed array of objects from localstorage
+    highScores = JSON.parse(localStorage.getItem("highScores"));
 
-    } else {
-        highScores = [];
-        highScores = JSON.parse(localStorage.getItem("highScores"));
-        highScores.push(highScoreObj);
-        localStorage.setItem("highScores", JSON.stringify(highScores));
-    }
+    //push the new highscore object to the end of the array
+    highScores.push(highScoreObj);
 
+    //update the localstorage with the new highscore array but stringify it
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+
+    //we then call the displayHighScores function to display the highscores list
     displayHighScores();
 }
 
+//this function displays the highscores in order from highest to lowest
 function displayHighScores() {
+    //initialize an liArray to hold all the li elements holding high scores
     var liArray = [];
 
+    //set the highscores list to be displayed
     highscoresEl.setAttribute("style", "display:flex;");
 
+    //pull the parsed array from local storage to ensure correct highscore data
     highScores = JSON.parse(localStorage.getItem("highScores"));
 
+    //sort through the object and compare highscores to have the list ordered correctly
     highScores = highScores.sort(compareHighScores);
 
+    //loop highScores.length times to create a li element for each highscore entry
     for (var i = 0; i < highScores.length; i++) {
+        //create the li element and store it in the recently initialized array
         liArray[i] = document.createElement("li");
+
+        //set the new li element as a child of the highscores element
         highscoresEl.appendChild(liArray[i]);
+
+        //set the text content of the li element to show the user initials and 
+        //high score
         liArray[i].textContent = highScores[i].initials + ": " + highScores[i].highscore;
     }
 
-    quizBtn.setAttribute("style", "display:box;");
+    //make the retry button visible by setting the display to inline
+    retryBtn.setAttribute("style", "display:inline;");
+
 }
 
+//this is a simple comparison function which is used to sort the objects
+//in the highscore array
 function compareHighScores(user1, user2) {
     return user2.highscore - user1.highscore;
 }
 
-// start game with button
-// to do this we will need an addeventlistener with
-// a quiz function
+//this function is called when the user clicks retry, and resets some parts
+//of the game
+function resetGame() {
+    //this will bring us back to the first question
+    questionNo = 0;
 
-// the quiz function will likely be the mother function
-// she will have all the other functions within
+    //this for loop removes all the highscore li elements to clear up space
+    //for the quiz elements
+    for (var i = highScores.length - 1; i > -1; i--) {
+        highscoresEl.children[i].remove();
+    }
 
-// there will need to be a function that displays
-// the current question, with all the children
-// answers/responses
+    //we stop displaying the retry button
+    retryBtn.setAttribute("style", "display:none;");
 
-// there will need to be a function that holds each question?
-// possibly a questions object that holds all the 
-// questions as objects and the questions have
-// answers as values within
-
-// there will need to be a timer function
-// we need to ensure that time is subtracted from
-// this timer when you answer incorrectly
-
-// gameOver function, which should be the same for
-// either completing all the questions or running out 
-// of time
-
-// highscores page which holds all the scores on localStorage
-// the highscores page will need an input form
-// the input form needs to take in two initials ONLY
-// it must also store those initials & connect them
-// to the highscore for that game- object? array with string & number?
+    //we call the start quiz function again, restarting the quiz
+    startQuiz();
+}

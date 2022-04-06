@@ -8,18 +8,24 @@
     <script src="./assets/script.js"></script>
     <title>JavaScript Fundamentals Web Quiz</title>
 </head>
+
 <body>
+
     <header>
         <h1>JavaScript Fundamentals Quiz</h1>
     </header>
+        <!-- this div holds our quiz stats -->
         <div id="quizStats">
             <p id="score">Score: 0</p>
             <p id="timer">Timer: 75</p>
         </div>
-        <div id="quizContainer">
 
+        <!-- this div holds all our quiz elements -->
+        <div id="quizContainer">
+            <!-- the quiz button starts the quiz initially but is only on the screen when you first visit the page-->
             <button id="quizStart">Start Quiz</button>
 
+            <!-- the questions and answers start undisplayed, but become visible when the quiz starts -->
             <h2 id="question"></h2>
             <ul id="answers">
                 <li class="answer"></li>
@@ -28,16 +34,23 @@
                 <li class="answer"></li>
             </ul>
 
+            <!-- the highscore form is not displayed until the quiz is over -->
             <form id="highscoreForm">
                 <label for="initials">Please enter your initials:</label>
                 <input type="text" id="initials" name="initials" placeholder="JD">
             </form>
 
+            <!-- the highscores list and following retry button is not displayed until the user enters their initials -->
             <ol id="highscores"></ol>
+
+            <button id="retry">Retry</button>
         </div>
+
     <footer>
         <h3>Made by Joey Bennett</h3>
     </footer>
+
     <script src="./assets/script.js"></script>
+
 </body>
 </html>
